@@ -3,8 +3,8 @@ import pygame
 
 pygame.init()
 WIDTH = 1000
-HEIGHT = 700
-screen = pygame.display.set_mode([WIDTH,HEIGHT])
+HEIGHT = 810
+screen = pygame.display.set_mode([WIDTH,HEIGHT],pygame.RESIZABLE)
 pygame.display.set_caption('Two Player pygame Chess')
 font = pygame.font.Font('freesansbold.ttf', 20)
 big_font = pygame.font.Font('freesansbold.ttf', 50)
@@ -68,12 +68,39 @@ white_knight_small = pygame.transform.scale(white_knight, (45, 45))
 white_pawn = pygame.image.load('assets/images/white pawn.png')
 white_pawn = pygame.transform.scale(white_pawn, (65, 65))
 white_pawn_small = pygame.transform.scale(white_pawn, (45, 45))
+
 white_images = [white_pawn, white_queen, white_king, white_knight, white_rook, white_bishop]
 small_white_images = [white_pawn_small, white_queen_small, white_king_small, white_knight_small,
-                      white_rook_small, white_bishop_small]
+                       white_rook_small, white_bishop_small]
 black_images = [black_pawn, black_queen, black_king, black_knight, black_rook, black_bishop]
 small_black_images = [black_pawn_small, black_queen_small, black_king_small, black_knight_small,
-                      black_rook_small, black_bishop_small]
+                       black_rook_small, black_bishop_small]
+piece_list = ["pawn", "queen", "king", "knight", "rook", "bishop"]
+#check variable/ flashing counter
+
+
+# draw main game board
+def draw_board():
+    for i in range(32):
+        column = i % 4 # 0 1 2 3 
+        row = i // 4 
+        if row % 2 == 0:
+            if column == 3 and row == 0:
+                pygame.draw.rect(screen, 'blue', [600 - (column * 200), row * 100, 90, 90])
+            elif column == 3 and row != 0:
+                pygame.draw.rect(screen, 'blue', [600 - (column * 200), row * 100 -20, 90, 90])
+            elif row == 0 and column != 3:
+                pygame.draw.rect(screen, 'red', [600 - (column * 200)-20, row * 100, 90, 90])
+            else:
+                pygame.draw.rect(screen, 'red', [600 - (column * 200) -10, row * 100 -10, 90, 90])
+                     
+        #else:
+            #if():
+            
+            #else:
+               # pygame.draw.rect(screen, 'light grey', [700 - (column * 200), row * 100, 90, 90])
+        else:
+            pygame.draw.rect(screen, 'light grey', [700 - (column * 200)-10, row * 100 -10, 90, 90])
 
 
 #main gameloop
@@ -81,6 +108,7 @@ run = True
 while run:
     timer.tick(fps)
     screen.fill('dark grey')
+    draw_board()
     
     for event in pygame.event.get(): # getting all input
         if event.type == pygame.QUIT: # prebuilt pygame
